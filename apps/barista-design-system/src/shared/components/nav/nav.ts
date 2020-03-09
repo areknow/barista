@@ -16,7 +16,6 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -37,24 +36,8 @@ export class BaNav {
   /** @internal whether the menu is shown in the mobile version */
   _showMenu = false;
 
-  /** @internal the current root url */
-  // _pathRoot$ = this._locationService.currentPath$.pipe(
-  //   map(path => this._getUrlRootPath(path)),
-  //   distinctUntilChanged(),
-  //   shareReplay(),
-  // );
-
-  constructor(http: HttpClient, private _router: Router) {
+  constructor(http: HttpClient) {
     const requestPath = `${environment.dataHost}${CONTENT_PATH_PREFIX}nav.json`;
     this._navData$ = http.get(requestPath, { responseType: 'json' });
-
-    console.log(this._router.url);
   }
-
-  /** @internal returns the root url of the given path */
-  // _getUrlRootPath(url: string): string {
-  //   const path = url.length && url[0] === '/' ? url.slice(1) : url;
-  //   const parts = path.split('/');
-  //   return parts.length ? parts[0] : '';
-  // }
 }

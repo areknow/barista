@@ -42,7 +42,7 @@ export const baristaRoutes: Route[] = [
   //       module => module.ContentPageModule
   //     )
   // },
-  { path: '', redirectTo: '/components/button', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'not-found', component: BaErrorPage },
   {
     path: 'home',

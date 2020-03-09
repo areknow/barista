@@ -17,15 +17,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { BaPageGuard } from '../../shared/services/page-guard';
-import { BaPageContent } from './page-content';
+import { DtTagModule } from '@dynatrace/barista-components/tag';
+import { BaComponentsModule } from '../../components';
 import { BaSidenav } from '../../shared/components/sidenav';
+import { BaPageGuard } from '../../shared/services/page-guard';
 import { BaContributors } from './components/contributors';
 import { BaPageFooter } from './components/page-footer';
 import { BaPageHeader } from './components/page-header';
+import { BaPageContent } from './page-content';
 // import { BaToc } from './components/toc';
 import { BaSinglePage } from './single-page';
-import { BaComponentsModule } from '../../components';
 
 export const routes: Route[] = [
   {
@@ -40,6 +41,7 @@ export const routes: Route[] = [
     CommonModule,
     RouterModule.forChild(routes),
     BaComponentsModule,
+    DtTagModule,
   ],
   declarations: [
     BaSinglePage,

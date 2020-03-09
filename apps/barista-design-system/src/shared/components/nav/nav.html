@@ -1,5 +1,5 @@
 <nav class="ba-nav">
-  <a class="ba-nav-brand" href="/">
+  <a class="ba-nav-brand" routerLink="/">
     <img
       class="ba-nav-logo"
       src="https://dt-cdn.net/images/dynatrace-logo-rgb-cnh-800x142px-8ad53ac283.svg"
@@ -19,14 +19,18 @@
   </div>
   <nav id="ba-nav-bar" class="ba-nav-bar" [class.ba-nav-bar-active]="_showMenu">
     <ul class="ba-nav-list">
-      <!-- <li
+      <li
         class="ba-nav-item"
         *ngFor="let item of (_navData$ | async)?.navItems"
-        [class.ba-nav-item-active]="(_pathRoot$ | async) === _getUrlRootPath(item.url)"
         (click)="_showMenu = false"
       >
-        <a class="ba-nav-link" [href]="item.url">{{ item.label }}</a>
-      </li> -->
+        <a
+          class="ba-nav-link"
+          [routerLink]="item.url"
+          routerLinkActive="ba-nav-link-active"
+          >{{ item.label }}</a
+        >
+      </li>
     </ul>
   </nav>
 </nav>
