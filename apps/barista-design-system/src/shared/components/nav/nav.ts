@@ -19,7 +19,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { BaLocationService } from '../../services/location.service';
+import { ActivatedRoute, RouterState } from '@angular/router';
 
 const CONTENT_PATH_PREFIX = 'data/';
 
@@ -39,21 +39,23 @@ export class BaNav {
   _showMenu = false;
 
   /** @internal the current root url */
-  _pathRoot$ = this._locationService.currentPath$.pipe(
-    map(path => this._getUrlRootPath(path)),
-    distinctUntilChanged(),
-    shareReplay(),
-  );
+  // _pathRoot$ = this._locationService.currentPath$.pipe(
+  //   map(path => this._getUrlRootPath(path)),
+  //   distinctUntilChanged(),
+  //   shareReplay(),
+  // );
 
-  constructor(http: HttpClient, private _locationService: BaLocationService) {
+  constructor(http: HttpClient, private _routerState: RouterState) {
     const requestPath = `${environment.dataHost}${CONTENT_PATH_PREFIX}nav.json`;
     this._navData$ = http.get(requestPath, { responseType: 'json' });
+
+    console.log(this._routerState.root.url);
   }
 
   /** @internal returns the root url of the given path */
-  _getUrlRootPath(url: string): string {
-    const path = url.length && url[0] === '/' ? url.slice(1) : url;
-    const parts = path.split('/');
-    return parts.length ? parts[0] : '';
-  }
+  // _getUrlRootPath(url: string): string {
+  //   const path = url.length && url[0] === '/' ? url.slice(1) : url;
+  //   const parts = path.split('/');
+  //   return parts.length ? parts[0] : '';
+  // }
 }

@@ -18,14 +18,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { BaPageGuard } from '../../shared/services/page-guard';
-import { DynamicService } from './dynamic.service';
 import { BaPageContent } from './page-content';
-// import { BaSidenav } from '../../shared/components/sidenav';
-// import { BaContributors } from './components/contributors';
-// import { BaPageFooter } from './components/page-footer';
-// import { BaPageHeader } from './components/page-header';
+import { BaSidenav } from '../../shared/components/sidenav';
+import { BaContributors } from './components/contributors';
+import { BaPageFooter } from './components/page-footer';
+import { BaPageHeader } from './components/page-header';
 // import { BaToc } from './components/toc';
 import { BaSinglePage } from './single-page';
+import { BaComponentsModule } from '../../components';
 
 export const routes: Route[] = [
   {
@@ -36,16 +36,19 @@ export const routes: Route[] = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    BaComponentsModule,
+  ],
   declarations: [
     BaSinglePage,
     BaPageContent,
-    // BaPageHeader,
-    // BaContributors,
-    // BaPageFooter,
-    // BaSidenav,
+    BaPageHeader,
+    BaContributors,
+    BaPageFooter,
+    BaSidenav,
     // BaToc,
   ],
-  providers: [DynamicService],
 })
 export class BaSinglePageModule {}

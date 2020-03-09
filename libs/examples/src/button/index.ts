@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export { DtButtonExamplesModule } from './button-examples.module';
+export * from './button-examples.module';

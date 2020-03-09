@@ -18,21 +18,30 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DtIconModule } from '@dynatrace/barista-components/icon';
+import { DtOverlayModule } from '@dynatrace/barista-components/overlay';
 import { DtThemingModule } from '@dynatrace/barista-components/theming';
+import { environment } from '../environments/environment';
 import { BaFooter } from '../shared/components/footer';
 import { BaNav } from '../shared/components/nav';
 import { BaScrollToTop } from '../shared/components/scroll-to-top';
 import { BaPageService } from '../shared/services/page.service';
 import { BaApp } from './app';
 import { BaRoutingModule } from './app.routing.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
+    CommonModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     DtThemingModule,
     BaRoutingModule,
+    DtIconModule.forRoot({
+      svgIconLocation: `${environment.deployUrl}assets/icons/{{name}}.svg`,
+    }),
+    DtOverlayModule,
   ],
   declarations: [BaApp, BaScrollToTop, BaNav, BaFooter],
   providers: [BaPageService],

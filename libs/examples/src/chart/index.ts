@@ -14,17 +14,4 @@
  * limitations under the License.
  */
 
-import { Component } from '@angular/core';
-import { BaPageService } from '../../shared/services/page.service';
-
-@Component({
-  selector: 'ba-single-page',
-  templateUrl: 'single-page.html',
-  styleUrls: ['single-page.scss'],
-})
-export class BaSinglePage {
-  content = this._pageService._getCurrentPage();
-
-  constructor(private _pageService: BaPageService) {}
-
-}
+export * from './chart-examples.module';

@@ -16,12 +16,13 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { DtSwitchModule } from '@dynatrace/barista-components/switch';
-// import { DtOverlayModule } from '@dynatrace/barista-components/overlay';
-// import { DtIconModule } from '@dynatrace/barista-components/icon';
-// import { DtButtonModule } from '@dynatrace/barista-components/button';
+import { DtSwitchModule } from '@dynatrace/barista-components/switch';
+import { DtOverlayModule } from '@dynatrace/barista-components/overlay';
+import { DtIconModule } from '@dynatrace/barista-components/icon';
+import { DtButtonModule } from '@dynatrace/barista-components/button';
 // import { BaIconColorWheel } from './icon-color-wheel/icon-color-wheel';
-// import { BaLiveExample } from './live-example/live-example';
+import { BaLiveExample } from './live-example/live-example';
+import { BaCopyToClipboardService } from '../shared/services/copy-to-clipboard.service';
 // import { BaLazyIcon } from './lazy-icon/lazy-icon';
 // import { BaHeadlineLink } from './headline-link/headline-link';
 // import { BaColorGrid } from './color-grid/color-grid';
@@ -29,7 +30,8 @@ import { CommonModule } from '@angular/common';
 // import { BaColor } from './color-component/color';
 // import { BaLayoutGridItem } from './layout-grid/layout-grid-item';
 
-import { BaLiveExample } from './example';
+// import { BaLiveExample } from './example';
+
 /**
  * The order of the following components is relevant in case they are nested.
  * Inner components must be instantiated first. This is why the grid-item
@@ -50,13 +52,12 @@ export const BA_CONTENT_COMPONENTS: any[] = [
 @NgModule({
   imports: [
     CommonModule,
-    // DtSwitchModule,
-    // DtOverlayModule,
-    // DtIconModule,
-    // DtButtonModule,
+    DtSwitchModule,
+    DtOverlayModule,
+    DtIconModule,
+    DtButtonModule,
   ],
-  exports: [...BA_CONTENT_COMPONENTS],
   declarations: [...BA_CONTENT_COMPONENTS],
-  entryComponents: [...BA_CONTENT_COMPONENTS],
+  providers: [BaCopyToClipboardService],
 })
 export class BaComponentsModule {}

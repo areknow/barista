@@ -25,7 +25,6 @@ import {
   BaPageLayoutType,
   BaErrorPageContent,
 } from '@dynatrace/shared/barista-definitions';
-import { BaLocationService } from './location.service';
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,

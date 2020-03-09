@@ -1,4 +1,4 @@
-<div [dtTheme]="_pageTheme$ | async" class="ba-app-container">
+<div [dtTheme]="_getPageTheme()" class="ba-app-container">
   <!-- <ba-nav></ba-nav>
   <ng-container *ngIf="(_breadcrumbs$ | async); let breadcrumbs">
     <dt-breadcrumbs

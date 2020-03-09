@@ -19,6 +19,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { Title } from '@angular/platform-browser';
 import { Subscription, Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 // import { map, switchMap } from 'rxjs/operators';
 // import { BaLocationService } from './shared/services/location.service';
 // import { BaPageService } from './shared/services/page.service';
@@ -27,12 +28,12 @@ import { Subscription, Observable, of } from 'rxjs';
 //   BaSinglePageContent,
 // } from '@dynatrace/shared/barista-definitions';
 
-// const PAGE_THEME_MAP = new Map<string, string>([
-//   ['brand', 'purple'],
-//   ['resources', 'blue'],
-//   ['components', 'royalblue'],
-//   ['patterns', 'turquoise'],
-// ]);
+const PAGE_THEME_MAP = new Map<string, string>([
+  ['brand', 'purple'],
+  ['resources', 'blue'],
+  ['components', 'royalblue'],
+  ['patterns', 'turquoise'],
+]);
 
 export const DEFAULT_PAGE_THEME = 'turquoise';
 
@@ -67,25 +68,15 @@ export class BaApp {
   //         : createBreadcrumbItems(path);
   //     }),
   //   );
-  /** @internal Gets the page theme based on the current location. */
-  _pageTheme$ = of('royalblue');
-  //   _pageTheme$ = this._locationService.currentPath$.pipe(
-  //     map((path: string) => {
-  //       let pageTheme = DEFAULT_PAGE_THEME;
-  //       if (path.length) {
-  //         const firstPart = path.split('/')[0];
-  //         pageTheme = PAGE_THEME_MAP.get(firstPart) || pageTheme;
-  //       }
-  //       return pageTheme;
-  //     }),
-  //   );
+
   //   /** Subscription on the current page. */
   //   private _currentPageSubscription = Subscription.EMPTY;
-  //   constructor(
+    constructor(
   //     private _pageService: BaPageService,
   //     private _locationService: BaLocationService,
   //     private _titleService: Title,
-  //   ) {}
+      private _router: Router,
+    ) {}
   //   ngOnInit(): void {
   //     this._currentPageSubscription = this._currentPage$.subscribe(page =>
   //       this._titleService.setTitle(`${page.title} | Barista design system`),
@@ -94,6 +85,19 @@ export class BaApp {
   //   ngOnDestroy(): void {
   //     this._currentPageSubscription.unsubscribe();
   //   }
+
+
+  /** @internal Gets the page theme based on the current location. */
+  _getPageTheme(): string {
+    const path = this._router.url.substr(1)
+    let pageTheme = DEFAULT_PAGE_THEME;
+    if (path.length) {
+      const firstPart = path.split('/')[0];
+      pageTheme = PAGE_THEME_MAP.get(firstPart) || pageTheme;
+    }
+    return pageTheme;
+  }
+
   //   /**
   //    * @internal
   //    * Handles all anchor clicks in app.

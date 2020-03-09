@@ -34,7 +34,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 export class BaLiveExample implements OnInit {
   /** The name of the example (class name) that will be instantiated. */
   @Input() name: string;
-s
+
   example$: Observable<any>;
 
   constructor(private _compiler: Compiler) {}
@@ -44,7 +44,7 @@ s
   }
 
   private _initExample(): void {
-    this.example$ = from(import(`@dynatrace/examples/alert`)).pipe(
+    this.example$ = from(import(`@dynatrace/examples/chart`)).pipe(
       map(es6Module => getNgModuleFromEs6Module(es6Module)),
       filter(Boolean),
       switchMap((moduleType: Type<NgModule>) =>

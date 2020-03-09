@@ -1,32 +1,23 @@
 <div class="ba-page-grid" *ngIf="content">
-  <!-- <nav
-    ba-sidenav
-    *ngIf="contents.sidenav"
-    [sidenavData]="contents.sidenav"
-  ></nav>
+  <nav ba-sidenav *ngIf="content.sidenav" [sidenavData]="content.sidenav"></nav>
 
   <ba-page-header
-    *ngIf="contents"
-    [title]="contents.title"
-    [description]="contents.description"
-    [contributors]="contents.contributors"
-    [properties]="contents.properties"
-    [wiki]="contents.wiki"
-    [themable]="contents.themable"
+    [title]="content.title"
+    [description]="content.description"
+    [contributors]="content.contributors"
+    [properties]="content.properties"
+    [wiki]="content.wiki"
+    [themable]="content.themable"
   ></ba-page-header>
--->
+
   <main class="ba-page-main" id="main" role="main">
     <article class="ba-single-page-content">
       <ba-page-content [data]="content.content"></ba-page-content>
     </article>
   </main>
-  <!--
-  <ba-toc *ngIf="_showTOC()"></ba-toc>
 
-  <ba-page-footer
-    *ngIf="contents"
-    [tags]="contents.tags"
-    [relatedTopics]="contents.related"
-  >
-  </ba-page-footer> -->
+  <!-- <ba-toc *ngIf="content.toc"></ba-toc> -->
+
+  <ba-page-footer [tags]="content.tags" [relatedTopics]="content.related">
+  </ba-page-footer>
 </div>

@@ -15,6 +15,6 @@
  */
 
 // export * from './icon-color-wheel/icon-color-wheel';
-// export * from './live-example/live-example';
-export * from './example';
+export * from './live-example/live-example';
+// export * from './example';
 export * from './components.module';
