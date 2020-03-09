@@ -20,17 +20,16 @@ import { DtSwitchModule } from '@dynatrace/barista-components/switch';
 import { DtOverlayModule } from '@dynatrace/barista-components/overlay';
 import { DtIconModule } from '@dynatrace/barista-components/icon';
 import { DtButtonModule } from '@dynatrace/barista-components/button';
-// import { BaIconColorWheel } from './icon-color-wheel/icon-color-wheel';
+import { BaIconColorWheel } from './icon-color-wheel/icon-color-wheel';
 import { BaLiveExample } from './live-example/live-example';
 import { BaCopyToClipboardService } from '../shared/services/copy-to-clipboard.service';
-// import { BaLazyIcon } from './lazy-icon/lazy-icon';
-// import { BaHeadlineLink } from './headline-link/headline-link';
-// import { BaColorGrid } from './color-grid/color-grid';
-// import { BaLayoutGrid } from './layout-grid/layout-grid';
-// import { BaColor } from './color-component/color';
-// import { BaLayoutGridItem } from './layout-grid/layout-grid-item';
-
-// import { BaLiveExample } from './example';
+import { BaLazyIcon } from './lazy-icon/lazy-icon';
+import { BaHeadlineLink } from './headline-link/headline-link';
+import { BaColorGrid } from './color-grid/color-grid';
+import { BaLayoutGrid } from './layout-grid/layout-grid';
+import { BaColor } from './color-component/color';
+import { BaLayoutGridItem } from './layout-grid/layout-grid-item';
+import { RouterModule } from '@angular/router';
 
 /**
  * The order of the following components is relevant in case they are nested.
@@ -39,19 +38,20 @@ import { BaCopyToClipboardService } from '../shared/services/copy-to-clipboard.s
  */
 // tslint:disable-next-line: no-any
 export const BA_CONTENT_COMPONENTS: any[] = [
-  // BaIconColorWheel,
+  BaIconColorWheel,
   BaLiveExample,
-  // BaLazyIcon,
-  // BaHeadlineLink,
-  // BaColor,
-  // BaLayoutGridItem,
-  // BaLayoutGrid,
-  // BaColorGrid,
+  BaLazyIcon,
+  BaHeadlineLink,
+  BaColor,
+  BaLayoutGridItem,
+  BaLayoutGrid,
+  BaColorGrid,
 ];
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     DtSwitchModule,
     DtOverlayModule,
     DtIconModule,

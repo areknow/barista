@@ -15,14 +15,11 @@
  */
 
 import {
-  Component,
-  Input,
-  ElementRef,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  OnDestroy,
+  Component,
+  ElementRef,
+  Input,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { createInViewportStream } from '@dynatrace/barista-components/core';
 
 @Component({
@@ -31,27 +28,18 @@ import { createInViewportStream } from '@dynatrace/barista-components/core';
   styleUrls: ['lazy-icon.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaLazyIcon implements OnDestroy {
+export class BaLazyIcon {
   @Input() name: string;
   @Input() title: string;
 
   /** @internal Whether the icon should be shown. */
-  _isVisible = false;
+  _isVisible$;
 
-  /** Subscription on element viewport intersection */
-  private _elementIntersectionSubscription = Subscription.EMPTY;
-
-  constructor(elementRef: ElementRef, changeDetectorRef: ChangeDetectorRef) {
-    this._elementIntersectionSubscription = createInViewportStream(
-      elementRef,
-      0,
-    ).subscribe(isInViewport => {
-      this._isVisible = isInViewport;
-      changeDetectorRef.markForCheck();
-    });
+  constructor(elementRef: ElementRef) {
+    this._isVisible$ = createInViewportStream(elementRef, 0);
   }
 
-  ngOnDestroy(): void {
-    this._elementIntersectionSubscription.unsubscribe();
+  _getIconLink(): string[] {
+    return ['/', 'resources', 'icons', this.name];
   }
 }

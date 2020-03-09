@@ -46,6 +46,7 @@ import {
 import { wrapCodeLines } from '../../utils/wrap-code-lines';
 import { BaCopyToClipboardService } from '../../shared/services/copy-to-clipboard.service';
 import { map, filter, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 type BaSourceType = 'html' | 'ts' | 'scss';
 
@@ -176,6 +177,7 @@ export class BaLiveExample implements OnInit, OnDestroy {
 
   constructor(
     private _compiler: Compiler,
+    private _route: Router,
     private _platform: Platform,
     private _ctcService: BaCopyToClipboardService,
   ) {
@@ -230,7 +232,11 @@ export class BaLiveExample implements OnInit, OnDestroy {
   }
 
   private _initExample(): void {
-    this.example$ = from(import(`@dynatrace/examples/chart`)).pipe(
+    const component = this._route.url.split('/').pop();
+    const url = `@dynatrace/examples/${component}`;
+
+
+    this.example$ = from(import(`/Users/lukas.holzer/Sites/barista/libs/examples/src/${component}/index.ts`)).pipe(
       map(es6Module => getNgModuleFromEs6Module(es6Module)),
       filter(Boolean),
       switchMap((moduleType: Type<NgModule>) =>
