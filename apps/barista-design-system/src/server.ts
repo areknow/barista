@@ -14,28 +14,39 @@
  * limitations under the License.
  */
 
-import 'zone.js/dist/zone-node';
-
+import { APP_BASE_HREF } from '@angular/common';
+import { BaSinglePageContent } from '@dynatrace/shared/barista-definitions';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
+import { existsSync, readFileSync } from 'fs';
+import { sync } from 'glob';
 import { join } from 'path';
-
+import 'zone.js/dist/zone-node';
 import { AppServerModule } from './main.server';
-import { APP_BASE_HREF } from '@angular/common';
-import { existsSync } from 'fs';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/barista-design-system/browser');
+  const distFolder = join(
+    process.cwd(),
+    'dist/apps/barista-design-system/browser',
+  );
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'
     : 'index';
+
+  const cacheMap = buildCacheMap(distFolder);
 
   server.engine(
     'html',
     ngExpressEngine({
       bootstrap: AppServerModule,
+      providers: [
+        {
+          provide: 'CACHE_MAP',
+          useValue: cacheMap,
+        },
+      ],
     }) as any,
   );
 
@@ -50,7 +61,7 @@ export function app(): express.Express {
     }),
   );
 
-  server.get('*', (req: express.Request, res: express.Response) => {
+  server.get('/**/*', (req: express.Request, res: express.Response) => {
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
@@ -68,6 +79,27 @@ function run(): void {
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
+}
+
+/**
+ * Builds the map for the pages that is provided
+ * to the angular app instead of making http
+ * request for the pages
+ */
+function buildCacheMap(distFolder: string): Map<string, BaSinglePageContent> {
+  const data = sync('**/*.json', { cwd: join(distFolder, 'data') });
+  const map = new Map<string, BaSinglePageContent>();
+
+  data
+    .filter(file => file.length)
+    .forEach(file => {
+      const content = readFileSync(join(distFolder, 'data', file), {
+        encoding: 'utf-8',
+      });
+      map.set(file.replace('.json', ''), JSON.parse(content));
+    });
+
+  return map;
 }
 
 // Webpack will replace 'require' with '__webpack_require__'

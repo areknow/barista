@@ -3,13 +3,21 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc-server",
     "module": "commonjs",
-    "types": ["node"]
+    "types": ["node"],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
   "files": ["src/main.server.ts", "src/server.ts"],
+  "include": [
+    "**/*.d.ts",
+    "../../libs/examples/src/*/index.ts",
+  ],
   "exclude": [
     "./src/main.ts",
     "./src/polyfills.ts",
+    "./src/test-setup.ts",
     "**/*.spec.ts",
+    "**/*.a11y.ts",
     "**/*.e2e.ts",
     "**/*.po.ts"
   ],

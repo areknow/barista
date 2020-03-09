@@ -15,22 +15,13 @@
  */
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { AsyncSubject, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, pluck, tap } from 'rxjs/operators';
-
+import { Injectable, Inject, Optional } from '@angular/core';
+import { Router } from '@angular/router';
+import { BaErrorPageContent, BaPageLayoutType, BaSinglePageContent } from '@dynatrace/shared/barista-definitions';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import {
-  BaSinglePageContent,
-  BaPageLayoutType,
-  BaErrorPageContent,
-} from '@dynatrace/shared/barista-definitions';
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  RouterState,
-  Router,
-} from '@angular/router';
+
 
 const CONTENT_PATH_PREFIX = 'data/';
 
@@ -61,22 +52,18 @@ export class BaPageService {
    */
   currentPage: Observable<BaSinglePageContent>;
 
-  constructor(private _http: HttpClient, private _router: Router) {
-    // // Whenever the URL changes we try to get the appropriate doc
-    // this.currentPage = location.currentPath$.pipe(
-    //   switchMap(path => this._getPage(path)),
-    // );
-    // // Populate the cache with the search page so that it is always available.
-    // this._cache.set(
-    //   'search',
-    //   of({
-    //     layout: BaPageLayoutType.Search,
-    //     title: 'Search results',
-    //   } as BaSinglePageContent),
-    // );
+  constructor(
+    private _http: HttpClient,
+    private _router: Router,
+    @Optional() @Inject("CACHE_MAP") cacheMap: Map<string, BaSinglePageContent>
+  ) {
+    if (cacheMap) {
+      this._cache = cacheMap;
+    }
   }
 
   _getCurrentPage(): BaSinglePageContent | null {
+    console.log('>> Get current Page: ', this._router.url)
     const url = this._router.url.substr(1);
     const page = this._cache.get(url);
 
@@ -93,8 +80,7 @@ export class BaPageService {
    * @param url - path to page
    */
   _getPage(url: string): Observable<BaSinglePageContent> {
-    console.log('getting page:', url);
-
+    console.log('>> Get Page: ', url)
     if (!this._cache.has(url)) {
       return this._fetchPage(url);
     }
@@ -106,6 +92,7 @@ export class BaPageService {
    * @param id - page id (path).
    */
   private _fetchPage(id: string): Observable<BaSinglePageContent> {
+    console.log('>> Fetch Page: ', id)
     const requestPath = `${environment.dataHost}${CONTENT_PATH_PREFIX}${id}.json`;
 
     return this._http

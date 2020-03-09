@@ -455,7 +455,7 @@
               },
               {
                 "glob": "**/*.json",
-                "input": "dist/apps/barista-design-system/data",
+                "input": "dist/apps/barista-design-system/browser/data",
                 "output": "/data"
               },
               {
@@ -513,7 +513,11 @@
           "options": {
             "outputPath": "dist/apps/barista-design-system/server",
             "main": "apps/barista-design-system/src/server.ts",
-            "tsConfig": "apps/barista-design-system/tsconfig.server.json"
+            "tsConfig": "apps/barista-design-system/tsconfig.server.json",
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/barista-components/core/src/style/"]
+            },
+            "progress": false
           },
           "configurations": {
             "production": {
@@ -552,7 +556,10 @@
           "options": {
             "browserTarget": "barista-design-system:build:production",
             "serverTarget": "barista-design-system:build-server:production",
-            "routes": ["/"]
+            "routes": [
+              "/home",
+              "/components/button"
+            ]
           },
           "configurations": {
             "production": {}

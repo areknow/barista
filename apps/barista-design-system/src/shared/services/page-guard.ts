@@ -38,7 +38,6 @@ export class BaPageGuard implements CanActivate {
   ): Observable<boolean> {
     return this._pageService._getPage(state.url.substr(1)).pipe(
       tap(data => {
-        console.log(data);
         if (data.layout === BaPageLayoutType.Error) {
           this._router.navigate(['not-found']);
         }
