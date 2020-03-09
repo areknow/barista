@@ -1,5 +1,6 @@
 <div [dtTheme]="_getPageTheme()" class="ba-app-container">
-  <!-- <ba-nav></ba-nav>
+  <ba-nav></ba-nav>
+  <!--
   <ng-container *ngIf="(_breadcrumbs$ | async); let breadcrumbs">
     <dt-breadcrumbs
       aria-label="Breadcrumbs navigation"
@@ -14,11 +15,9 @@
     </dt-breadcrumbs>
   </ng-container> -->
 
-  <!-- <ba-page-outlet [content]="_currentPage$ | async"></ba-page-outlet> -->
-
   <router-outlet></router-outlet>
 
   <button ba-scroll-to-top></button>
 
-  <!-- <ba-footer></ba-footer> -->
+  <ba-footer></ba-footer>
 </div>

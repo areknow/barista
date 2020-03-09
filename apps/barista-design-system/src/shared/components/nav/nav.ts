@@ -16,10 +16,9 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { ActivatedRoute, RouterState } from '@angular/router';
 
 const CONTENT_PATH_PREFIX = 'data/';
 
@@ -45,11 +44,11 @@ export class BaNav {
   //   shareReplay(),
   // );
 
-  constructor(http: HttpClient, private _routerState: RouterState) {
+  constructor(http: HttpClient, private _router: Router) {
     const requestPath = `${environment.dataHost}${CONTENT_PATH_PREFIX}nav.json`;
     this._navData$ = http.get(requestPath, { responseType: 'json' });
 
-    console.log(this._routerState.root.url);
+    console.log(this._router.url);
   }
 
   /** @internal returns the root url of the given path */

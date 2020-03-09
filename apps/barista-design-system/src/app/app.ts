@@ -41,10 +41,6 @@ export const DEFAULT_PAGE_THEME = 'turquoise';
   selector: 'ba-app',
   templateUrl: 'app.html',
   styleUrls: ['./app.scss'],
-  // host: {
-  //   '(click)':
-  //     '_handleClick($event.target, $event.button, $event.ctrlKey, $event.metaKey)',
-  // },
 })
 // implements OnInit, OnDestroy
 export class BaApp {
@@ -71,12 +67,12 @@ export class BaApp {
 
   //   /** Subscription on the current page. */
   //   private _currentPageSubscription = Subscription.EMPTY;
-    constructor(
-  //     private _pageService: BaPageService,
-  //     private _locationService: BaLocationService,
-  //     private _titleService: Title,
-      private _router: Router,
-    ) {}
+  constructor(
+    //     private _pageService: BaPageService,
+    //     private _locationService: BaLocationService,
+    //     private _titleService: Title,
+    private _router: Router,
+  ) {}
   //   ngOnInit(): void {
   //     this._currentPageSubscription = this._currentPage$.subscribe(page =>
   //       this._titleService.setTitle(`${page.title} | Barista design system`),
@@ -86,10 +82,9 @@ export class BaApp {
   //     this._currentPageSubscription.unsubscribe();
   //   }
 
-
   /** @internal Gets the page theme based on the current location. */
   _getPageTheme(): string {
-    const path = this._router.url.substr(1)
+    const path = this._router.url.substr(1);
     let pageTheme = DEFAULT_PAGE_THEME;
     if (path.length) {
       const firstPart = path.split('/')[0];
@@ -97,34 +92,8 @@ export class BaApp {
     }
     return pageTheme;
   }
+}
 
-  //   /**
-  //    * @internal
-  //    * Handles all anchor clicks in app.
-  //    */
-  //   _handleClick(
-  //     eventTarget: HTMLElement,
-  //     button: number,
-  //     ctrlKey: boolean,
-  //     metaKey: boolean,
-  //   ): boolean {
-  //     // Deal with anchor clicks; climb DOM tree until anchor found (or null)
-  //     let target: HTMLElement | null = eventTarget;
-  //     while (target && !(target instanceof HTMLAnchorElement)) {
-  //       target = target.parentElement;
-  //     }
-  //     if (target instanceof HTMLAnchorElement) {
-  //       return this._locationService.handleAnchorClick(
-  //         target,
-  //         button,
-  //         ctrlKey,
-  //         metaKey,
-  //       );
-  //     }
-  //     // Allow the click to pass through
-  //     return true;
-  //   }
-  // }
   // function createBreadcrumbItems(
   //   path: string,
   // ): { title: string; href: string }[] {
@@ -137,4 +106,4 @@ export class BaApp {
   //       .replace(part.charAt(0), part.charAt(0).toUpperCase());
   //     return { title: part, href: previousPath };
   //   });
-}
+  // }
