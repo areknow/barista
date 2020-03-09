@@ -14,150 +14,64 @@
  * limitations under the License.
  */
 
-import { Platform } from '@angular/cdk/platform';
 import {
-  Component,
-  ComponentFactoryResolver,
-  ComponentRef,
-  ElementRef,
-  Injector,
-  Input,
-  OnDestroy,
-  ViewChild,
-  ɵcreateInjector as createInjector,
-  ViewContainerRef,
-  NgModuleFactory,
   Compiler,
-  ModuleWithComponentFactories,
+  Component,
+  Input,
+  NgModule,
+  OnInit,
+  Type,
 } from '@angular/core';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { ngModuleJitUrl, compileNgModule } from '@angular/compiler';
-import { Observable, from, of, combineLatest } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { Type } from '@angular/compiler/src/core';
+import { from, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'ba-live-example',
   template: `
-    <ng-container
-      [ngComponentOutlet]="example$ | async"
-      [ngComponentOutletNgModuleFactory]="factory$ | async"
-    ></ng-container>
+    <ng-container [ngComponentOutlet]="example$ | async"></ng-container>
   `,
 })
-export class BaLiveExample implements OnDestroy {
+export class BaLiveExample implements OnInit {
   /** The name of the example (class name) that will be instantiated. */
-  @Input()
-  get name(): string {
-    return this._name;
-  }
-  set name(value: string) {
-    this._name = value;
-    this._initExample();
-  }
-  private _name: string;
-
+  @Input() name: string;
+s
   example$: Observable<any>;
-  factory$: Observable<any>;
 
-  /** @internal The component-ref of the instantiated class. */
-  _componentRef: ComponentRef<unknown>;
+  constructor(private _compiler: Compiler) {}
 
-  constructor(
-    private _componentFactoryResolver: ComponentFactoryResolver,
-    private _injector: Injector,
-    private _viewContainerRef: ViewContainerRef,
-    private _platform: Platform,
-    private compiler: Compiler,
-  ) {}
-
-  ngOnDestroy(): void {
-    if (this._componentRef) {
-      this._componentRef.destroy();
-    }
+  ngOnInit(): void {
+    this._initExample();
   }
 
   private _initExample(): void {
-    console.log('INIT EXAMPLES: ');
-    const examples$ = of(this._name).pipe(
-      switchMap(() => import(`@dynatrace/examples/input`)),
-      map(moduleMap => moduleMap['DtInputExamplesModule']),
-      switchMap(moduleType =>
-        this.compiler.compileModuleAndAllComponentsAsync(moduleType),
+    this.example$ = from(import(`@dynatrace/examples/alert`)).pipe(
+      map(es6Module => getNgModuleFromEs6Module(es6Module)),
+      filter(Boolean),
+      switchMap((moduleType: Type<NgModule>) =>
+        this._compiler.compileModuleAndAllComponentsAsync(moduleType),
       ),
-    );
-
-    this.example$ = examples$.pipe(
       map(({ componentFactories }) => {
         return componentFactories.find(
-          factory => factory.componentType.name === this._name,
+          factory => factory.componentType.name === this.name,
         )?.componentType;
       }),
     );
-
-    this.factory$ = examples$.pipe(
-      map(({ ngModuleFactory }) => ngModuleFactory),
-      tap(console.log),
-    );
-
-    // this.example$.subscribe(console.log);
-
-    // from().pipe(
-    //   map(a =>)
-    // )
-
-    // import(
-    //   `/Users/lukas.holzer/Sites/barista/libs/examples/src/button/button-default-example/button-default-example`
-    // )
-    //   // .then(comp => comp[Object.keys(comp)[0]])
-    //   // .then(m => this.compiler.compileModuleAndAllComponentsAsync(m))
-    //   .then(m => {
-    //     // const injector = createInjector(m, this._injector);
-    //     // const myModule = injector.get(m);
-
-    //     console.log(m);
-
-    //     //working example
-    //     // const componentFactory = this._componentFactoryResolver.resolveComponentFactory(
-    //     //   m,
-    //     // );
-    //     // const componentRef = this._placeholder.createComponent(
-    //     //   componentFactory,
-    //     //   0,
-    //     //   this._injector,
-    //     // );
-    //     // componentRef.changeDetectorRef.markForCheck();
-    //     //working example
-
-    //     // const componentFactory = myModule.resolveComponentFactory(DtButtonDE);
-    //     // const componentRef = this.carousel.createComponent(componentFactory);
-    //     // componentRef.changeDetectorRef.markForCheck();
-    //     // const tagName = ComponentType.ngComponentDef.selectors[0];
-    //     // const host = document.createElement(tagName);
-    //     // const component = renderComponent(ComponentType, {
-    //     //   host,
-    //     //   injector: this.injector,
-    //     // });
-
-    //     // return {
-    //     //   component,
-    //     //   host,
-    //     // };
-    //   });
-
-    // console.log(this._name);
-    //   const exampleType = EXAMPLES_MAP.get(this.name);
-    //   if (exampleType) {
-    //     const factory = this._componentFactoryResolver.resolveComponentFactory(
-    //       exampleType,
-    //     );
-    //     this._componentRef = createComponent(
-    //       factory,
-    //       this._viewContainerRef,
-    //       this._injector,
-    //       this._placeholder.nativeElement,
-    //       true,
-    //     );
-    //   }
   }
 }
+
+/** Retrieves the NgModule of an es6 module */
+function getNgModuleFromEs6Module(es6Module: any): Type<NgModule> | null {
+  for (const key of Object.keys(es6Module)) {
+    if (isNgModule(es6Module[key])) {
+      return es6Module[key];
+    }
+  }
+  return null;
+}
+
+/** Checks if a provided type is an Angular Module */
+const isNgModule = (moduleType: any): boolean =>
+  !!(
+    Array.isArray(moduleType?.decorators) &&
+    moduleType.decorators[0]?.type?.prototype?.ngMetadataName === 'NgModule'
+  );
