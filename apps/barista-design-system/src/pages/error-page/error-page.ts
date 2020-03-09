@@ -15,6 +15,7 @@
  */
 
 import { Component } from '@angular/core';
+import { BaPageService } from '../../shared/services/page.service';
 
 @Component({
   selector: 'ba-error-page',
@@ -24,4 +25,8 @@ import { Component } from '@angular/core';
     role: 'main',
   },
 })
-export class BaErrorPage {}
+export class BaErrorPage {
+  content = this._pageService._getCurrentPage();
+
+  constructor(private _pageService: BaPageService) {}
+}

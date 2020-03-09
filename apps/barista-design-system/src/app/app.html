@@ -9,7 +9,8 @@
       <a
         *ngFor="let crumb of breadcrumbs"
         dtBreadcrumbsItem
-        [attr.href]="crumb.href"
+        [routerLink]="crumb.href"
+        routerLinkActive="router-link-active"
         >{{crumb.title}}</a
       >
     </dt-breadcrumbs>

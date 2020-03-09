@@ -54,7 +54,7 @@ export class BaPageService {
    * @internal
    * Caches pages once they have been loaded.
    */
-  _cache = new Map<string, BaSinglePageContent>();
+  _cache = new Map<string, BaSinglePageContent>([['not-found', ERRORPAGE]]);
 
   /**
    * The current page that should be displayed.
@@ -77,10 +77,8 @@ export class BaPageService {
   }
 
   _getCurrentPage(): BaSinglePageContent | null {
-    // TODO: rename index page to home
     const url = this._router.url.substr(1);
-    const id = url !== 'home' ? url : 'index';
-    const page = this._cache.get(id);
+    const page = this._cache.get(url);
 
     if (!page) {
       this._router.navigate(['not-found']);
@@ -97,11 +95,10 @@ export class BaPageService {
   _getPage(url: string): Observable<BaSinglePageContent> {
     console.log('getting page:', url);
 
-    const id = url !== 'home' ? url : 'index';
-    if (!this._cache.has(id)) {
-      return this._fetchPage(id);
+    if (!this._cache.has(url)) {
+      return this._fetchPage(url);
     }
-    return of(this._cache.get(id)!);
+    return of(this._cache.get(url)!);
   }
 
   /**

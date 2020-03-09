@@ -46,7 +46,6 @@ export class BaPageContent implements OnDestroy {
   }
   private _data = '';
 
-  // tslint:disable-next-line: no-any
   private _componentFactories: ComponentFactory<any>[] = [];
 
   private _componentRefs: ComponentRef<any>[] = [];

@@ -3,10 +3,10 @@
     {{ section.title || sidenavData.title }}
   </span>
   <a
-    *ngFor="let item of section.items"
-    [href]="item.link"
     class="ba-sidenav-item"
-    [ngClass]="{ 'ba-sidenav-item-active': item.active}"
+    *ngFor="let item of section.items"
+    [routerLink]="_getLink(item.link)"
+    routerLinkActive="ba-sidenav-item-active"
   >
     <span class="ba-sidenav-item-headline">
       {{ item.title }}
