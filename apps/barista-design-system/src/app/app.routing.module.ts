@@ -21,13 +21,41 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 export const baristaRoutes: Route[] = [
-  // {
-  //   path: '/components',
-  //   loadChildren: () =>
-  //     import('./pages/overview-page/overview-page.module').then(
-  //       module => module.BaOverviewPageModule
-  //     )
-  // },
+  {
+    path: 'brand',
+    loadChildren: () =>
+      import('../pages/overview-page/overview-page.module').then(
+        module => module.BaOverviewPageModule
+      )
+  },
+  {
+    path: 'resources',
+    loadChildren: () =>
+      import('../pages/overview-page/overview-page.module').then(
+        module => module.BaOverviewPageModule
+      )
+  },
+  {
+    path: 'guidelines',
+    loadChildren: () =>
+      import('../pages/overview-page/overview-page.module').then(
+        module => module.BaOverviewPageModule
+      )
+  },
+  {
+    path: 'components',
+    loadChildren: () =>
+      import('../pages/overview-page/overview-page.module').then(
+        module => module.BaOverviewPageModule
+      )
+  },
+  {
+    path: 'patterns',
+    loadChildren: () =>
+      import('../pages/overview-page/overview-page.module').then(
+        module => module.BaOverviewPageModule
+      )
+  },
   // {
   //   path: '/components/**',
   //   loadChildren: () =>

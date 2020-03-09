@@ -15,6 +15,7 @@
  */
 
 import { Component } from '@angular/core';
+import { BaSinglePageContent } from '@dynatrace/shared/barista-definitions';
 import { BaPageService } from '../../shared/services/page.service';
 
 @Component({
@@ -23,7 +24,7 @@ import { BaPageService } from '../../shared/services/page.service';
   styleUrls: ['single-page.scss'],
 })
 export class BaSinglePage {
-  content = this._pageService._getCurrentPage();
+  content = this._pageService._getCurrentPage() as BaSinglePageContent;
 
   constructor(private _pageService: BaPageService) {}
 

@@ -24,6 +24,7 @@ import {
   BaSinglePageContent,
   BaPageLayoutType,
   BaErrorPageContent,
+  BaCategoryNavigationContent,
 } from '@dynatrace/shared/barista-definitions';
 import {
   ActivatedRoute,
@@ -76,7 +77,7 @@ export class BaPageService {
     // );
   }
 
-  _getCurrentPage(): BaSinglePageContent | null {
+  _getCurrentPage(): BaSinglePageContent | BaCategoryNavigationContent | null {
     const url = this._router.url.substr(1);
     const page = this._cache.get(url);
 
