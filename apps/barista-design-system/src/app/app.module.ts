@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   imports: [
     CommonModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'barista-design-system' }),
     HttpClientModule,
     BrowserAnimationsModule,
     DtThemingModule,

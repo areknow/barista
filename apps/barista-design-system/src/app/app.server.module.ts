@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/app.module';
+import { NgModule } from '@angular/core';
+import {
+  ServerModule,
+  ServerTransferStateModule,
+} from '@angular/platform-server';
+import { AppModule } from './app.module';
+import { BaApp } from './app';
 
-document.addEventListener('DOMContentLoaded', () => {
-  platformBrowserDynamic()
-    .bootstrapModule(AppModule, { preserveWhitespaces: true })
-    .catch(err => {
-      console.error(err);
-    });
-});
+@NgModule({
+  imports: [AppModule, ServerModule, ServerTransferStateModule],
+  bootstrap: [BaApp],
+})
+export class AppServerModule {}
