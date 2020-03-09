@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './alert-examples.module';
+export * from './container-breakpoint-observer-examples.module';

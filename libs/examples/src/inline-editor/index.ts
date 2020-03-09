@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './alert-examples.module';
+export * from './inline-editor-examples.module';

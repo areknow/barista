@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './alert-examples.module';
+export * from './show-more-examples.module';

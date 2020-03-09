@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export { DtInputExamplesModule } from './input-examples.module';
+export * from './input-examples.module';
